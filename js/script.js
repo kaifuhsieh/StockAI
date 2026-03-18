@@ -877,9 +877,7 @@ document.addEventListener("DOMContentLoaded", () => {
       tr.innerHTML = `
                 <td class="sticky-col-1">
                     <a href="https://www.wantgoo.com/stock/${stock.id}/technical-chart" target="_blank" class="stock-link">
-                        <span class="stock-name">
-                            ${stock.name}
-                        </span>
+                        <span class="stock-name">${stock.name}</span>
                         <span class="stock-id">${stock.id}</span>
                     </a>
                     ${stock.dividendInfo ? `<div class="dividend-tag">${stock.dividendInfo}</div>` : ""}

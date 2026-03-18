@@ -53,8 +53,8 @@ document.addEventListener("DOMContentLoaded", () => {
         row.innerHTML = `
           <td class="sticky-col-1">
             <a href="https://www.wantgoo.com/stock/${stock.code}/technical-chart" target="_blank" class="stock-link">
-              <span class="stock-name" style="color: var(--stock-name); font-weight: 700; display: block; margin-bottom: 2px;">${stock.name}</span>
-              <span class="stock-code" style="font-size: 0.8rem; color: var(--text-muted);">${stock.code}</span>
+              <span class="stock-name">${stock.name}</span>
+              <span class="stock-code">${stock.code}</span>
             </a>
           </td>
           <td class="price-text lg-text text-center">${stock.buyPrice}</td>

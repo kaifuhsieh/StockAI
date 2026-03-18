@@ -1,163 +1,160 @@
 <!doctype html>
 <html lang="zh-TW">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>選股報酬率 - 飆股管家</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-    <link rel="stylesheet" href="css/style.css" />
-  </head>
-  <body class="">
-    <!-- Full Screen Loader -->
-    <div id="loading-overlay" class="loading-overlay">
-      <div class="loader-content">
-        <div class="loader-spinner"></div>
-        <div class="loader-text">飆股<span>管家</span></div>
-      </div>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>選股報酬率 - 飆股管家</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap"
+    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body class="">
+  <!-- Full Screen Loader -->
+  <div id="loading-overlay" class="loading-overlay">
+    <div class="loader-content">
+      <div class="loader-spinner"></div>
+      <div class="loader-text">飆股<span>管家</span></div>
     </div>
-
-    <div class="app-container">
-      <!-- Sidebar Placeholder -->
-      <div id="sidebar-placeholder"></div>
-
-      <!-- Main Content -->
-      <main class="main-content">
-        <!-- Dashboard Top Bar (Desktop) -->
-        <div class="top-bar">
-
-          <div class="top-actions">
-            <button class="icon-btn" id="desktop-theme-toggle">☀️</button>
-            <button class="icon-btn">🔔</button>
-            <div class="user-profile-small">
-              <a href="login.html" class="icon-btn logout-desktop" title="登出系統">
-                <span class="material-icons">logout</span>
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <header class="mobile-header">
-          <a href="index.html" class="logo-container">
-            <div class="logo-icon"><span class="material-icons">trending_up</span></div>
-            <h2 class="logo-text">飆股<span>管家</span></h2>
-          </a>
-          <div class="top-actions">
-            <button class="icon-btn" id="mobile-theme-toggle">☀️</button>
-            <button class="icon-btn">🔔</button>
-            <a href="login.html" class="icon-btn logout-mobile" title="登出系統">
+  </div>
+  <div class="app-container">
+    <!-- Sidebar Placeholder -->
+    <div id="sidebar-placeholder"></div>
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Dashboard Top Bar (Desktop) -->
+      <div class="top-bar">
+        <div class="top-actions">
+          <button class="icon-btn" id="desktop-theme-toggle">☀️</button>
+          <button class="icon-btn">🔔</button>
+          <div class="user-profile-small">
+            <a href="login.html" class="icon-btn logout-desktop" title="登出系統">
               <span class="material-icons">logout</span>
             </a>
           </div>
-        </header>
-
-        <section class="content-header">
-          <div class="title-area">
-            <h2><span class="title-emoji">💰</span> 選股報酬率分析</h2>
-          </div>
-          <div class="action-area">
-
-            <button class="btn btn-secondary btn-sm" id="refresh-btn">
-              <span class="material-icons">refresh</span> 重新整理
-            </button>
-          </div>
-        </section>
-
-        <!-- Performance Summary Table -->
-        <h3 class="table-section-title">💰 平均報酬率 (共<span id="summary-total-count">0</span>筆)</h3>
-        <div class="table-container summary-table-container">
-          <div class="scroll-wrapper">
-            <table class="summary-performance-table">
-                <thead>
-                    <tr>
-                        <th><span class="material-icons icon-sm">calendar_today</span> 統計區間</th>
-                        <th><span class="material-icons icon-sm">bar_chart</span> 交易筆數</th>
-                        <th><span class="material-icons icon-sm">trending_up</span> 平均報酬率</th>
-                    </tr>
-                </thead>
-                <tbody><tr><td id="perf-period">2025-08-01 ~ 2026-03-18</td><td id="perf-count">65 筆</td><td id="perf-avg-roi" class="up">3.85%</td></tr></tbody>
-            </table>
-          </div>
         </div>
+      </div>
+      <header class="mobile-header">
+        <a href="index.html" class="logo-container">
+          <div class="logo-icon"><span class="material-icons">trending_up</span></div>
+          <h2 class="logo-text">飆股<span>管家</span></h2>
+        </a>
+        <div class="top-actions">
+          <button class="icon-btn" id="mobile-theme-toggle">☀️</button>
+          <button class="icon-btn">🔔</button>
+          <a href="login.html" class="icon-btn logout-mobile" title="登出系統">
+            <span class="material-icons">logout</span>
+          </a>
+        </div>
+      </header>
+      <section class="content-header">
+        <div class="title-area">
+          <h2><span class="title-emoji">💰</span> 選股報酬率分析</h2>
+        </div>
+        <div class="action-area">
+          <button class="btn btn-secondary btn-sm" id="refresh-btn">
+            <span class="material-icons">refresh</span> 重新整理 </button>
+        </div>
+      </section>
+      <!-- Performance Summary Table -->
+      <h3 class="table-section-title">💰 平均報酬率 (共<span id="summary-total-count">0</span>筆)</h3>
+      <div class="table-container summary-table-container">
+        <div class="scroll-wrapper">
+          <table class="summary-performance-table">
+            <thead>
+              <tr>
+                <th><span class="material-icons icon-sm">calendar_today</span> 統計區間</th>
+                <th><span class="material-icons icon-sm">bar_chart</span> 交易筆數</th>
+                <th><span class="material-icons icon-sm">trending_up</span> 平均報酬率</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td id="perf-period">2025-08-01 ~ 2026-03-18</td>
+                <td id="perf-count">65 筆</td>
+                <td id="perf-avg-roi" class="up">83.85%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- Gainers Table -->
+      <div class="table-header-group">
+        <h3 class="table-section-title">📈 漲幅前五名 (共5筆)</h3>
+        <div class="last-update" id="gainers-update-time">最後更新：----/--/-- --:--:--</div>
+      </div>
+      <div class="table-container">
+        <div class="scroll-wrapper">
+          <table id="gainers-table">
+            <thead>
+              <tr>
+                <th class="sticky-col-1">股名/股號</th>
+                <th class="text-center">買入價</th>
+                <th class="text-center">收盤價</th>
+                <th class="text-center">漲跌/漲跌幅</th>
+                <th class="text-center">破5日前高</th>
+                <th class="text-center">量能</th>
+                <th class="text-center">KD</th>
+                <th class="text-center">MACD</th>
+                <th class="text-center">RSI</th>
+                <th class="text-center">EPS</th>
+                <th class="text-center">殖利率</th>
+                <th>產業別</th>
+                <th class="text-center">乖離率</th>
+                <th class="text-center">持有天數</th>
+                <th class="text-center">報酬率</th>
+              </tr>
+            </thead>
+            <tbody id="gainers-body">
+              <!-- Data populated by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- Losers Table -->
+      <div class="table-header-group mt-32">
+        <h3 class="table-section-title">📉 跌幅前五名 (共5筆)</h3>
+        <div class="last-update" id="losers-update-time">最後更新：----/--/-- --:--:--</div>
+      </div>
+      <div class="table-container">
+        <div class="scroll-wrapper">
+          <table id="losers-table">
+            <thead>
+              <tr>
+                <th class="sticky-col-1">股名/股號</th>
+                <th class="text-center">買入價</th>
+                <th class="text-center">收盤價</th>
+                <th class="text-center">漲跌/漲跌幅</th>
+                <th class="text-center">破5日前高</th>
+                <th class="text-center">量能</th>
+                <th class="text-center">KD</th>
+                <th class="text-center">MACD</th>
+                <th class="text-center">RSI</th>
+                <th class="text-center">EPS</th>
+                <th class="text-center">殖利率</th>
+                <th>產業別</th>
+                <th class="text-center">乖離率</th>
+                <th class="text-center">持有天數</th>
+                <th class="text-center">報酬率</th>
+              </tr>
+            </thead>
+            <tbody id="losers-body">
+              <!-- Data populated by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script src="components/loader.js"></script>
+  <script src="js/performance_script.js"></script>
+</body>
 
-        <!-- Gainers Table -->
-        <div class="table-header-group">
-            <h3 class="table-section-title">📈 漲幅前五名 (共5筆)</h3>
-            <div class="last-update" id="gainers-update-time">最後更新：----/--/-- --:--:--</div>
-        </div>
-        <div class="table-container">
-          <div class="scroll-wrapper">
-            <table id="gainers-table">
-              <thead>
-                <tr>
-                  <th class="sticky-col-1">股名/股號</th>
-                  <th class="text-center">買入價</th>
-                  <th class="text-center">收盤價</th>
-                  <th class="text-center">漲跌/漲跌幅</th>
-                  <th class="text-center">破5日前高</th>
-                  <th class="text-center">量能</th>
-                  <th class="text-center">KD</th>
-                  <th class="text-center">MACD</th>
-                  <th class="text-center">RSI</th>
-                  <th class="text-center">EPS</th>
-                  <th class="text-center">殖利率</th>
-                  <th>產業別</th>
-                  <th class="text-center">乖離率</th>
-                  <th class="text-center">持有天數</th>
-                  <th class="text-center">報酬率</th>
-                </tr>
-              </thead>
-              <tbody id="gainers-body">
-                <!-- Data populated by JS -->
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <!-- Losers Table -->
-        <div class="table-header-group mt-32">
-            <h3 class="table-section-title">📉 跌幅前五名 (共5筆)</h3>
-            <div class="last-update" id="losers-update-time">最後更新：----/--/-- --:--:--</div>
-        </div>
-        <div class="table-container">
-          <div class="scroll-wrapper">
-            <table id="losers-table">
-              <thead>
-                <tr>
-                  <th class="sticky-col-1">股名/股號</th>
-                  <th class="text-center">買入價</th>
-                  <th class="text-center">收盤價</th>
-                  <th class="text-center">漲跌/漲跌幅</th>
-                  <th class="text-center">破5日前高</th>
-                  <th class="text-center">量能</th>
-                  <th class="text-center">KD</th>
-                  <th class="text-center">MACD</th>
-                  <th class="text-center">RSI</th>
-                  <th class="text-center">EPS</th>
-                  <th class="text-center">殖利率</th>
-                  <th>產業別</th>
-                  <th class="text-center">乖離率</th>
-                  <th class="text-center">持有天數</th>
-                  <th class="text-center">報酬率</th>
-                </tr>
-              </thead>
-              <tbody id="losers-body">
-                <!-- Data populated by JS -->
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-      </main>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script src="components/loader.js"></script>
-    <script src="js/performance_script.js"></script>
-  </body>
 </html>

@@ -1107,13 +1107,14 @@ body.dark-theme tr.analysis-row td {
 
 @media (max-width: 767px) {
     .analysis-text {
-        font-size: 1rem !important; /* Set to 1rem as requested */
-        line-height: 1.6;
+        font-size: 0.85rem !important; /* Reduced from 1rem */
+        line-height: 1.5;
+        padding-top: 0.5rem;
     }
     
     .analysis-text strong {
-        font-size: 1rem !important;
-        margin-bottom: 6px;
+        font-size: 0.95rem !important;
+        margin-bottom: 4px;
     }
 }
 
@@ -1254,12 +1255,6 @@ tbody td.lg-text {
 }
 
 /* Specific Element Styling */
-.stock-id {
-    display: block;
-    font-size: 0.813rem;
-    color: var(--text-muted);
-    line-height: 1.1;
-}
 
 .stock-name {
     font-weight: 600;
@@ -1274,14 +1269,23 @@ tbody td.lg-text {
     text-decoration: none;
     display: flex;
     flex-direction: column;
-    gap: 0;
+    gap: 4px; /* Increased gap to make the name and code more breathless */
     transition: filter 0.2s;
 }
 
-.stock-link .stock-id {
+.stock-link .stock-name {
+    color: var(--stock-name);
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.stock-link .stock-id,
+.stock-link .stock-code {
+    font-size: 0.8rem;
     color: var(--text-muted);
     text-decoration: none;
     opacity: 0.9;
+    line-height: 1;
 }
 
 .stock-link:hover {
@@ -2345,24 +2349,25 @@ body.dark-theme .summary-performance-table th {
         width: 100%;
         height: calc(65px + env(safe-area-inset-bottom));
         padding-bottom: env(safe-area-inset-bottom);
-        background: rgba(255, 255, 255, 0.85);
+        background: rgba(255, 255, 255, 0.9); /* Slightly more opaque */
         backdrop-filter: blur(25px) saturate(180%);
         -webkit-backdrop-filter: blur(25px) saturate(180%);
         border-top: 1px solid rgba(0, 0, 0, 0.08);
-        z-index: 9999;
+        z-index: 10000; /* Ensure it stays on top */
+        transform: translate3d(0, 0, 0); /* Stabilize on mobile safari */
     }
 
     body.dark-theme .mobile-bottom-nav {
-        background: rgba(21, 27, 44, 0.85);
+        background: rgba(18, 24, 40, 0.9);
         border-top: 1px solid rgba(255, 255, 255, 0.08);
-        box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.4);
     }
 
     .main-content {
         margin-left: 0 !important;
         padding: 1rem 1.25rem;
         padding-top: calc(75px + env(safe-area-inset-top)) !important;
-        padding-bottom: calc(100px + env(safe-area-inset-bottom)) !important;
+        padding-bottom: calc(110px + env(safe-area-inset-bottom)) !important; /* Increased space */
         width: 100% !important;
     }
 
