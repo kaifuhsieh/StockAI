@@ -2,6 +2,9 @@
   <button class="sidebar-toggle" id="sidebar-toggle">
     <span class="material-icons">chevron_left</span>
   </button>
+  <button class="hamburger-btn mobile-close-sidebar" id="mobile-sidebar-close">
+    <span class="material-icons">close</span>
+  </button>
   <div class="logo-container">
     <div class="logo-icon"><span class="material-icons">trending_up</span></div>
     <h1 class="logo-text">飆股<span>管家</span></h1>
@@ -23,12 +26,29 @@
       <span class="icon">📰</span> <span>市場快報</span>
     </a>
   </nav>
+
+  <!-- Mobile Only Actions Integrated into Sidebar -->
+  <div class="sidebar-actions">
+    <button class="sidebar-action-item" id="sidebar-theme-toggle">
+      <span class="material-icons">dark_mode</span>
+      <span>切換主色彩</span>
+    </button>
+    <button class="sidebar-action-item">
+      <span class="material-icons">notifications</span>
+      <span>重要通知</span>
+    </button>
+  </div>
+
   <div class="user-profile">
     <div class="avatar">A</div>
     <div class="user-info">
       <p class="user-name">Alex</p>
       <p class="user-status">VIP 會員</p>
     </div>
+    <!-- Integrated Logout -->
+    <a href="login.html" class="sidebar-logout-btn" title="登出系統">
+      <span class="material-icons">logout</span>
+    </a>
   </div>
 </aside>
 

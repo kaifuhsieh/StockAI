@@ -110,29 +110,6 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById('perf-count').textContent = "65 筆";
 
     // Theme toggling (Mirroring script.js)
-    const desktopThemeToggle = document.getElementById('desktop-theme-toggle');
-    const mobileThemeToggle = document.getElementById('mobile-theme-toggle');
-    const body = document.body;
-  
-    function toggleTheme() {
-      body.classList.toggle('dark-theme');
-      const isDark = body.classList.contains('dark-theme');
-      localStorage.setItem('theme', isDark ? 'dark' : 'light');
-      
-      const icons = [desktopThemeToggle?.querySelector('.material-icons'), mobileThemeToggle?.querySelector('.material-icons')];
-      icons.forEach(icon => {
-        if (icon) icon.textContent = isDark ? 'light_mode' : 'dark_mode';
-      });
-    }
-  
-    if (localStorage.getItem('theme') === 'dark') {
-      body.classList.add('dark-theme');
-      if (desktopThemeToggle) desktopThemeToggle.querySelector('.material-icons').textContent = 'light_mode';
-      if (mobileThemeToggle) mobileThemeToggle.querySelector('.material-icons').textContent = 'light_mode';
-    }
-  
-    if (desktopThemeToggle) desktopThemeToggle.addEventListener('click', toggleTheme);
-    if (mobileThemeToggle) mobileThemeToggle.addEventListener('click', toggleTheme);
   
     // Sync refresh button
     document.getElementById('refresh-btn').addEventListener('click', () => {

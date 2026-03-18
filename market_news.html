@@ -31,7 +31,9 @@
             <button class="icon-btn" id="desktop-theme-toggle">☀️</button>
             <button class="icon-btn">🔔</button>
             <div class="user-profile-small">
-              <a href="login.html" class="avatar-small"><span class="material-icons">logout</span></a>
+              <a href="login.html" class="icon-btn logout-desktop" title="登出系統">
+                <span class="material-icons">logout</span>
+              </a>
             </div>
           </div>
         </div>
@@ -39,12 +41,11 @@
         <!-- Mobile Header -->
         <header class="mobile-header">
           <div class="logo-container">
+            <button class="hamburger-btn" id="mobile-hamburger">
+              <span class="material-icons">menu</span>
+            </button>
             <div class="logo-icon"><span class="material-icons">trending_up</span></div>
             <h2 class="logo-text">飆股<span>管家</span></h2>
-          </div>
-          <div class="top-actions">
-            <button class="icon-btn" id="mobile-theme-toggle">🌙</button>
-            <button class="icon-btn">🔔</button>
           </div>
         </header>
 
@@ -212,7 +213,8 @@
       document.addEventListener('DOMContentLoaded', () => {
         const today = new Date();
         const dateStr = today.toLocaleDateString('zh-TW', { year: 'numeric', month: 'numeric', day: 'numeric' });
-        document.getElementById('today-date').textContent = dateStr;
+        const dateEl = document.getElementById('today-date');
+        if (dateEl) dateEl.textContent = dateStr;
 
         renderNews(twNews, 'tw-news-list');
         renderNews(usNews, 'us-news-list');
@@ -221,33 +223,10 @@
         const overlay = document.getElementById('loading-overlay');
         if (overlay) {
           overlay.classList.add('fade-out');
-          setTimeout(() => overlay.style.display = 'none', 500);
+          setTimeout(() => { overlay.style.display = 'none'; }, 500);
         }
       });
-
-      // ── Theme ──
-      const desktopThemeToggle = document.getElementById('desktop-theme-toggle');
-      const mobileThemeToggle  = document.getElementById('mobile-theme-toggle');
-      const currentTheme = localStorage.getItem('theme') || 'light';
-      if (currentTheme === 'dark') {
-        document.body.classList.add('dark-theme');
-        updateToggleIcons('dark');
-      } else {
-        updateToggleIcons('light');
-      }
-      function toggleTheme() {
-        document.body.classList.toggle('dark-theme');
-        const theme = document.body.classList.contains('dark-theme') ? 'dark' : 'light';
-        localStorage.setItem('theme', theme);
-        updateToggleIcons(theme);
-      }
-      function updateToggleIcons(mode) {
-        const emoji = mode === 'dark' ? '🌙' : '☀️';
-        if (desktopThemeToggle) desktopThemeToggle.textContent = emoji;
-        if (mobileThemeToggle)  mobileThemeToggle.textContent  = emoji;
-      }
-      if (desktopThemeToggle) desktopThemeToggle.addEventListener('click', toggleTheme);
-      if (mobileThemeToggle)  mobileThemeToggle.addEventListener('click', toggleTheme);
     </script>
+
   </body>
 </html>

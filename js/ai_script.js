@@ -172,8 +172,6 @@ const stockData = [
 document.addEventListener("DOMContentLoaded", () => {
   const tableBody = document.getElementById("stock-data-body");
   const stockCount = document.getElementById("stock-count");
-  const desktopThemeToggle = document.getElementById('desktop-theme-toggle');
-  const mobileThemeToggle = document.getElementById('mobile-theme-toggle');
   const historyTracker = document.getElementById('history-tracker');
   const loadingOverlay = document.getElementById('loading-overlay');
 
@@ -312,31 +310,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Theme Management
-  const currentTheme = localStorage.getItem('theme') || 'light';
-  if (currentTheme === 'dark') {
-    document.body.classList.add('dark-theme');
-    updateToggleIcons('dark');
-  } else {
-    document.body.classList.remove('dark-theme');
-    updateToggleIcons('light');
-  }
-
-  function toggleTheme() {
-    document.body.classList.toggle('dark-theme');
-    const theme = document.body.classList.contains('dark-theme') ? 'dark' : 'light';
-    localStorage.setItem('theme', theme);
-    updateToggleIcons(theme === 'light' ? 'light' : 'dark');
-  }
-
-  function updateToggleIcons(mode) {
-    const emoji = mode === 'dark' ? '🌙' : '☀️';
-    if (desktopThemeToggle) desktopThemeToggle.textContent = emoji;
-    if (mobileThemeToggle) mobileThemeToggle.textContent = emoji;
-  }
-
-  if (desktopThemeToggle) desktopThemeToggle.addEventListener('click', toggleTheme);
-  if (mobileThemeToggle) mobileThemeToggle.addEventListener('click', toggleTheme);
 
   // Initial render handled by generator
   // renderTable(displayData); 
