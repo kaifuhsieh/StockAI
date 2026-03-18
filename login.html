@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>登入 - 飆股管家</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="login-page">
+    <div class="login-container">
+      <div class="login-card">
+        <div class="login-logo">
+          <div class="logo-icon"><span class="material-icons">trending_up</span></div>
+          <h1 class="logo-text">飆股<span>管家</span></h1>
+        </div>
+        
+       
+
+        <div class="login-actions">
+         
+
+          <div class="form-group">
+            <label>帳號 / 電子郵件</label>
+            <input type="text" placeholder="請輸入帳號">
+          </div>
+          
+          <div class="form-group">
+            <label>密碼</label>
+            <input type="password" placeholder="請輸入密碼">
+          </div>
+
+          <button class="btn btn-primary login-submit-btn" onclick="location.href='index.html'">
+            登入系統
+          </button>
+        </div>
+        <div class="divider">
+            <span>或是</span>
+          </div>
+         <button class="google-sso-btn" onclick="location.href='index.html'">
+            <img src="https://www.gstatic.com/images/branding/product/1x/gsa_512dp.png" alt="Google Logo">
+            <span>使用 Google 帳號登入</span>
+          </button>
+          
+          
+
+        <div class="login-footer">
+          <a href="#">忘記密碼？</a>
+          <span>還沒有帳號？ <a href="#">立即註冊</a></span>
+        </div>
+      </div>
+      
+      <div class="login-copyright">
+        &copy; 2026 飆股管家 專業策略選股系統. All rights reserved.
+      </div>
+    </div>
+  </body>
+</html>
