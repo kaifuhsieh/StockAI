@@ -236,11 +236,18 @@ body.dark-theme .icon-btn:hover {
 }
 
 html, body {
-    width: 100%;
     margin: 0;
     padding: 0;
-    overflow-x: hidden;
+    height: 100%;
+    overflow: hidden; /* Prevent default scrolling on body to fix mobile bar jumping */
+}
+
+.app-container {
+    display: flex;
+    height: 100dvh; /* Use dynamic viewport height for mobile stability */
+    width: 100vw;
     background-color: var(--bg-main);
+    overflow: hidden;
 }
 
 body {
@@ -248,11 +255,6 @@ body {
     color: var(--text-main);
     line-height: 1.5;
     transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.app-container {
-    display: flex;
-    min-height: 100vh;
 }
 
 /* Sidebar Styling - Red Warm Theme */
@@ -1413,6 +1415,11 @@ tbody td.lg-text {
     background: rgba(255, 255, 255, 0.1);
     border-radius: 4px;
 }
+.title-emoji {
+    font-size: 1.2em;
+    vertical-align: middle;
+    margin-right: 0.5rem;
+}
 
 ::-webkit-scrollbar-thumb:hover {
     background: rgba(255, 255, 255, 0.2);
@@ -1461,7 +1468,12 @@ tbody td.lg-text {
 
 @media (max-width: 1440px) {
     .main-content {
-        padding: 1.5rem 2rem;
+        flex: 1;
+        padding: 2.5rem 3.5rem;
+        overflow-y: auto;
+        background-color: var(--bg-main);
+        display: flex;
+        flex-direction: column;
     }
 }
 
@@ -1535,13 +1547,13 @@ tbody td.lg-text {
 
     .mobile-header .logo-icon {
         color: var(--primary);
-        font-size: 1.6rem;
+        font-size: 1.25rem;
         display: flex;
         align-items: center;
     }
 
     .mobile-header .logo-text {
-        font-size: 1.4rem;
+        font-size: 1.15rem;
         font-weight: 800;
         letter-spacing: -0.02em;
         margin: 0;
@@ -1645,6 +1657,11 @@ tbody td.lg-text {
     font-size: 2rem;
     color: var(--primary);
     filter: drop-shadow(0 0 12px var(--primary-shadow));
+}
+
+.logo-icon .material-icons {
+    font-size: 26px;
+    color: var(--primary);
 }
 
 .login-logo .logo-text {
@@ -2298,28 +2315,42 @@ body.dark-theme .summary-performance-table th {
 }
 /* --- Mobile Bottom Tab Bar (Apple HIG Style) --- */
 @media (max-width: 767px) {
+    .app-container {
+        height: 100dvh;
+        flex-direction: column;
+    }
+    
     .mobile-bottom-nav {
         display: flex;
         justify-content: space-around;
         align-items: center;
         position: fixed;
-        bottom: 0;
+        bottom: 0 !important; /* Force to bottom */
         left: 0;
         width: 100%;
-        height: calc(60px + env(safe-area-inset-bottom));
+        height: calc(65px + env(safe-area-inset-bottom));
         padding-bottom: env(safe-area-inset-bottom);
-        background: rgba(255, 255, 255, 0.85); /* Light Mode Frost */
-        backdrop-filter: blur(20px) saturate(180%);
-        -webkit-backdrop-filter: blur(20px) saturate(180%);
-        border-top: 1px solid rgba(0, 0, 0, 0.08); /* Minimalist Apple-style line */
-        z-index: 2100;
-        box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.02);
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(25px) saturate(180%);
+        -webkit-backdrop-filter: blur(25px) saturate(180%);
+        border-top: 1px solid rgba(0, 0, 0, 0.08);
+        z-index: 9999; /* Max z-index */
     }
 
     body.dark-theme .mobile-bottom-nav {
-        background: rgba(21, 27, 44, 0.85); /* Dark Mode Frost */
+        background: rgba(21, 27, 44, 0.85);
         border-top: 1px solid rgba(255, 255, 255, 0.08);
-        box-shadow: 0 -1px 10px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .main-content {
+        margin-left: 0 !important;
+        padding: 1rem 1.25rem;
+        padding-top: calc(75px + env(safe-area-inset-top)) !important;
+        padding-bottom: calc(90px + env(safe-area-inset-bottom)) !important;
+        width: 100% !important;
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch;
     }
 
     .mobile-nav-item {
@@ -2367,10 +2398,5 @@ body.dark-theme .summary-performance-table th {
     /* Active State Micro-animation */
     .mobile-nav-item:active .icon {
         transform: scale(0.9);
-    }
-
-    /* Adjust main content for tab bar height */
-    .main-content {
-        padding-bottom: calc(85px + env(safe-area-inset-bottom)) !important;
     }
 }
