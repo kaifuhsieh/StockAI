@@ -94,8 +94,12 @@
           <h3 class="table-section-title"><span id="table-title-date">2026-03-17</span> 今日推薦股票列表 - <span id="table-stock-count">0</span> 筆</h3>
           <div class="last-update" id="last-update-time">最後更新：----/--/-- --:--:--</div>
         </div>
-        <div class="table-container">
+        <div class="table-tabs">
+          <button class="table-tab active" onclick="switchTableTab('data')" id="tab-data">數據</button>
+          <button class="table-tab" onclick="switchTableTab('momentum')" id="tab-momentum">動能</button>
+        </div>
 
+        <div class="table-container tab-content active" id="table-data">
           <div class="scroll-wrapper">
             <table id="stock-table">
               <thead>
@@ -118,6 +122,30 @@
                 </tr>
               </thead>
               <tbody id="stock-data-body">
+                <!-- Data populated by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="table-container tab-content" id="table-momentum">
+          <div class="scroll-wrapper">
+            <table id="stock-table-momentum">
+              <thead>
+                <tr>
+                  <th class="sticky-col-1">股名/股號</th>
+                  <th class="sortable text-center" data-sort="score">評分 <span class="material-icons sort-icon">sort</span></th>
+                  <th class="sortable text-center" data-sort="techGrade">技術面 <span class="material-icons sort-icon">sort</span></th>
+                  <th class="sortable text-center" data-sort="momGrade">動能 <span class="material-icons sort-icon">sort</span></th>
+                  <th class="sortable text-center" data-sort="riskGrade">風險 <span class="material-icons sort-icon">sort</span></th>
+                  <th class="text-center">型態</th>
+                  <th class="text-center">狀態</th>
+                  <th class="sortable text-center" data-sort="suitability">策略適配 <span class="material-icons sort-icon">sort</span></th>
+                  <th>綜合評估</th>
+                  <th class="text-center">自選</th>
+                </tr>
+              </thead>
+              <tbody id="stock-momentum-body">
                 <!-- Data populated by JS -->
               </tbody>
             </table>

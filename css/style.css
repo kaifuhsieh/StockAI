@@ -955,7 +955,47 @@ body:not(.dark-theme) .logo-text {
 }
 
 /* Table Section */
+/* Table Tabs */
+.table-tabs {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.table-tab {
+    background: none;
+    border: none;
+    padding: 0.5rem 0.5rem 0.75rem 0.5rem;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    transition: all 0.2s;
+}
+
+.table-tab:hover {
+    color: var(--text-main);
+}
+
+.table-tab.active {
+    color: var(--primary);
+    border-bottom-color: var(--primary);
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
 .table-container {
+
     background-color: var(--bg-card);
     border-radius: 0.75rem;
     border: 1px solid var(--border);
@@ -1301,6 +1341,16 @@ tbody td.lg-text {
 
 .stock-link:hover {
     filter: brightness(1.2);
+}
+
+#stock-table th:nth-child(2),
+#stock-table td:nth-child(2),
+#stock-table-momentum th:nth-child(2),
+#stock-table-momentum td:nth-child(2) {
+    width: 75px;
+    min-width: 75px;
+    max-width: 75px;
+    white-space: nowrap;
 }
 
 .confidence-score {

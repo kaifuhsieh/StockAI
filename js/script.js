@@ -724,12 +724,61 @@ document.addEventListener("DOMContentLoaded", () => {
     direction: 'desc'
   };
 
+  // Generate stable random momentum data so sorting doesn't scramble them
+  const gradesA = ["A+", "A", "A-"];
+  const gradesB = ["B+", "B", "B-"];
+  const gradesC = ["C+", "C", "C-"];
+  const allGrades = [...gradesA, ...gradesB, ...gradesC];
+  
+  const marketStates = ["偏多", "強烈偏多", "中性", "偏空"];
+  const runStates = ["建構中", "轉強", "強勢", "過熱", "轉弱"];
+  
+  const posPhrases = ["動能策略區間", "短線量能攻擊", "均線多頭排列", "法人連續買超", "突破整理平台", "量價配合良好"];
+  const negPhrases = ["短線過熱風險", "上檔套牢賣壓", "乖離大防拉回", "籌碼略顯鬆動", "高檔反轉風險", "逢前高壓力"];
+
+  const getGradeByScore = (baseScore) => {
+      // Small +/- variance for organic realism across technical/momentum/risk columns
+      const finalScore = baseScore + (Math.random() * 20 - 10);
+      if (finalScore >= 85) return ["A+", "A"][Math.floor(Math.random() * 2)];
+      if (finalScore >= 70) return ["A-", "B+"][Math.floor(Math.random() * 2)];
+      if (finalScore >= 55) return ["B", "B-"][Math.floor(Math.random() * 2)];
+      if (finalScore >= 40) return ["C+", "C"][Math.floor(Math.random() * 2)];
+      return ["C", "C-"][Math.floor(Math.random() * 2)];
+  };
+
+  stockData.forEach(item => {
+      const scoreNum = parseFloat(item.score) || 60; // fallback to 60 if parsing fails
+      item.techGrade = getGradeByScore(scoreNum);
+      item.momGrade = getGradeByScore(scoreNum);
+      item.riskGrade = getGradeByScore(scoreNum);
+      
+      const isHigh = scoreNum >= 75;
+      item.marketState = isHigh 
+          ? marketStates[Math.floor(Math.random() * 2)] // 偏多, 強烈偏多 
+          : marketStates[Math.floor(Math.random() * 2) + 2]; // 中性, 偏空
+          
+      item.runState = isHigh 
+          ? runStates[Math.floor(Math.random() * 3)] // 建構中, 轉強, 強勢
+          : runStates[Math.floor(Math.random() * 2) + 3]; // 過熱, 轉弱
+          
+      item.suitability = Math.min(100, Math.max(0, Math.floor(scoreNum + (Math.random() * 12 - 4)))); 
+      item.assessment1 = posPhrases[Math.floor(Math.random() * posPhrases.length)];
+      item.assessment2 = negPhrases[Math.floor(Math.random() * negPhrases.length)];
+  });
+
   const originalData = [...stockData];
   
   // Enhanced numeric parsing helper
   const parseVal = (v) => {
     if (typeof v === 'number') return v;
     if (typeof v === 'string') {
+      const matchAlpha = v.match(/^[A-C][+-]?$/);
+      if (matchAlpha) {
+         // Convert A+, A, A- to numbers so they can be sorted. A+ > A > A- > B+...
+         const base = {'A': 30, 'B': 20, 'C': 10}[v.charAt(0)] || 0;
+         const mod = v.endsWith('+') ? 3 : (v.endsWith('-') ? 1 : 2);
+         return base + mod;
+      }
       const matched = v.match(/-?\d+(\.\d+)?/);
       return matched ? parseFloat(matched[0]) : 0;
     }
@@ -798,9 +847,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function renderTable(data) {
     const table = document.getElementById("stock-table");
+    const tableMomentum = document.getElementById("stock-table-momentum");
+    
     // Clear all existing tbodies
-    const existingTbodies = table.querySelectorAll('tbody');
-    existingTbodies.forEach(tb => tb.remove());
+    [table, tableMomentum].forEach(t => {
+      if (!t) return;
+      const existingTbodies = t.querySelectorAll('tbody');
+      existingTbodies.forEach(tb => tb.remove());
+    });
     
     // Update count labels based on data length
     const tableCount = document.getElementById('table-stock-count');
@@ -904,6 +958,47 @@ document.addEventListener("DOMContentLoaded", () => {
             `;
       tbody.appendChild(tr);
       table.appendChild(tbody);
+      
+      if (tableMomentum) {
+        const getGradeHtml = (grade) => {
+            if (!grade) return `<span style="color: #888;">-</span>`;
+            if (grade.startsWith('A')) return `<span class="up">${grade}</span>`;
+            if (grade.startsWith('C')) return `<span class="down">${grade}</span>`;
+            return `<span style="color: #888;">${grade}</span>`; // Neutral B
+        };
+
+        const tbodyM = document.createElement("tbody");
+        tbodyM.className = "stock-group";
+        const trM = document.createElement("tr");
+        trM.className = "stock-row";
+        
+        trM.innerHTML = `
+          <td class="sticky-col-1">
+              <a href="https://www.wantgoo.com/stock/${stock.id}/technical-chart" target="_blank" class="stock-link">
+                  <span class="stock-name">${stock.name}</span>
+                  <span class="stock-id">${stock.id}</span>
+              </a>
+          </td>
+          <td class="text-center"><span class="confidence-score ${stock.score >= 75 ? 'up' : ''}">${stock.score}</span></td>
+          <td class="text-center price-text" style="font-size: 1.125rem; font-weight: 700;">${getGradeHtml(stock.techGrade)}</td>
+          <td class="text-center price-text" style="font-size: 1.125rem; font-weight: 700;">${getGradeHtml(stock.momGrade)}</td>
+          <td class="text-center price-text" style="font-size: 1.125rem; font-weight: 700;">${getGradeHtml(stock.riskGrade)}</td>
+          <td class="text-center" style="font-size: 0.938rem;">${stock.marketState}</td>
+          <td class="text-center" style="font-size: 0.938rem;">${stock.runState}</td>
+          <td class="text-center price-text lg-text" style="font-weight: 600;">${stock.suitability} / 100</td>
+          <td>
+            <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+                <span style="display: inline-block; border: 1px solid var(--border); border-radius: 4px; padding: 2px 6px; font-size: .875rem; color: #666; text-align: center; white-space: nowrap;">${stock.assessment1}</span>
+                <span style="display: inline-block; border: 1px solid var(--border); border-radius: 4px; padding: 2px 6px; font-size: .875rem; color: #666; text-align: center; white-space: nowrap;">${stock.assessment2}</span>
+            </div>
+          </td>
+          <td class="text-center">
+              <button class="add-btn" data-id="${stock.id}" data-name="${stock.name}">+</button>
+          </td>
+        `;
+        tbodyM.appendChild(trM);
+        tableMomentum.appendChild(tbodyM);
+      }
     });
   }
 
@@ -958,3 +1053,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
+// Global tab switcher function
+function switchTableTab(tab) {
+  // Update Tabs
+  document.querySelectorAll('.table-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  
+  // Update Content
+  document.querySelectorAll('.table-container.tab-content').forEach(c => c.classList.remove('active'));
+  document.getElementById('table-' + tab).classList.add('active');
+}
