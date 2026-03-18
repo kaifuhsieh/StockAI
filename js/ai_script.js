@@ -502,17 +502,17 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Scroll Shadow Logic
-  const scrollWrapper = document.querySelector('.scroll-wrapper');
-  if (scrollWrapper) {
-    scrollWrapper.addEventListener('scroll', () => {
-      if (scrollWrapper.scrollLeft > 0) {
-        scrollWrapper.classList.add('is-scrolled');
+  // Scroll Shadow Logic (for fixed columns)
+  const scrollWrappers = document.querySelectorAll('.scroll-wrapper');
+  scrollWrappers.forEach(wrapper => {
+    wrapper.addEventListener('scroll', () => {
+      if (wrapper.scrollLeft > 0) {
+        wrapper.classList.add('is-scrolled');
       } else {
-        scrollWrapper.classList.remove('is-scrolled');
+        wrapper.classList.remove('is-scrolled');
       }
     });
-  }
+  });
 
   // Favorite Modal Logic
   const favoriteModal = document.getElementById('favorite-modal');

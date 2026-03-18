@@ -127,4 +127,16 @@ document.addEventListener("DOMContentLoaded", () => {
             }, 500);
         }, 1000);
     });
+
+    // Scroll Shadow Logic (for fixed columns)
+    const scrollWrappers = document.querySelectorAll('.scroll-wrapper');
+    scrollWrappers.forEach(wrapper => {
+        wrapper.addEventListener('scroll', () => {
+            if (wrapper.scrollLeft > 0) {
+                wrapper.classList.add('is-scrolled');
+            } else {
+                wrapper.classList.remove('is-scrolled');
+            }
+        });
+    });
 });
