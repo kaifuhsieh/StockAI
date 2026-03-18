@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>市場快報 - 飆股管家</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <!-- Full Screen Loader -->
+    <div id="loading-overlay" class="loading-overlay">
+      <div class="loader-content">
+        <div class="loader-spinner"></div>
+        <div class="loader-text">飆股<span>管家</span></div>
+      </div>
+    </div>
+
+    <div class="app-container">
+      <!-- Sidebar Placeholder -->
+      <div id="sidebar-placeholder"></div>
+
+      <main class="main-content">
+        <!-- Desktop Top Bar -->
+        <div class="top-bar">
+
+          <div class="top-actions">
+            <button class="icon-btn" id="desktop-theme-toggle">☀️</button>
+            <button class="icon-btn">🔔</button>
+            <div class="user-profile-small">
+              <a href="login.html" class="avatar-small"><span class="material-icons">logout</span></a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mobile Header -->
+        <header class="mobile-header">
+          <div class="logo-container">
+            <div class="logo-icon"><span class="material-icons">trending_up</span></div>
+            <h2 class="logo-text">飆股<span>管家</span></h2>
+          </div>
+          <div class="top-actions">
+            <button class="icon-btn" id="mobile-theme-toggle">🌙</button>
+            <button class="icon-btn">🔔</button>
+          </div>
+        </header>
+
+        <!-- Page Content -->
+        <div class="content-area">
+
+          <!-- 標題列 -->
+          <div class="title-area mb-20">
+            <h2><span class="title-emoji">📰</span> 市場快報</h2>
+            <p id="news-subtitle" class="subtitle-text">盤後整理・精選財經新聞</p>
+          </div>
+
+          <!-- 今日市場摘要 -->
+          <div class="market-summary-card">
+            <div class="card-header-line">
+              <h3 class="m-0 no-border">📋 <span id="today-date"></span> 股市電子報・分析師重點摘要</h3>
+            </div>
+
+            <div id="market-summary-box" class="summary-box optimistic">
+              <div class="summary-icon"></div>
+              <div class="summary-content">
+                台股今日強勢上漲 <strong>512點</strong>，終場收於 <strong>34,348.58點</strong>，成功站上 34,000 點大關，成交量達 8,969.61 億元。受美股四大指數上漲及輝達 GTC 大會利多的影響，台積電更回到 1,905 元，帶動記憶體股及多檔千金股同步上漲。特別是股王信驊，股價再創新高至 12,450 元，展現強大市場信心。投資者熱衷於 AI 及半導體相關概念股，未來行情值得期待，而市場資金仍在逐步回流。
+              </div>
+            </div>
+          </div>
+
+      
+
+          <!-- 雙欄新聞 -->
+          <div class="news-columns" id="news-columns">
+
+            <!-- 台股新聞 -->
+            <div class="news-column-card">
+              <div class="news-column-title">
+                🇹🇼 台股新聞
+                <span class="col-badge tw">TSE</span>
+              </div>
+              <div id="tw-news-list"></div>
+            </div>
+
+            <!-- 美股新聞 -->
+            <div class="news-column-card">
+              <div class="news-column-title">
+                🇺🇸 美股新聞
+                <span class="col-badge us">NYSE / NASDAQ</span>
+              </div>
+              <div id="us-news-list"></div>
+            </div>
+
+          </div>
+        </div><!-- /content-area -->
+      </main><!-- /main-content -->
+    </div><!-- /app-container -->
+
+    <!-- Scripts -->
+    <script src="components/loader.js"></script>
+    <script>
+      // ── 新聞資料 ──
+      const twNews = [
+        {
+          title: "收盤／戰火壓不住多方反攻！台股狂飆512點",
+          desc: "受到美股全數收紅的激勵，台股成功反攻，漲幅達到512.01點，受到記憶體股的強勁拉動，多檔個股表現喜人。",
+          tag: "tw", url: "#"
+        },
+        {
+          title: "利空鈍化？台股大漲逾500點 新台幣午盤暫收31.843元",
+          desc: "儘管中東局勢仍在不穩狀態，但台股今天卻開高走高，強勢上漲逾500點，顯示市場參與者對未來的信心有回升。",
+          tag: "tw", url: "#"
+        },
+        {
+          title: "台股季漲幅重返2成 統一投信兩檔主動ETF雙雙狂飆3成超威",
+          desc: "台股近期持續強勁反彈，漲幅逐漸回升，尤其部分主動式ETF在市場熱度中表現亮眼，顯示出投資者對於追逐成長股的熱情不減。",
+          tag: "tw", url: "#"
+        },
+        {
+          title: "受注意！CCL平均報酬顯著提升 投資貴人中研究所ETF的表現",
+          desc: "在市場積極追逐AI及記憶體股的情況下，投資人可集中於主動式ETF的表現，特別是針對那些預期會在景氣回暖中受惠的標的。",
+          tag: "tw", url: "#"
+        },
+        {
+          title: "科技股大幅波動，但信驊卻站上新高！",
+          desc: "雖然近期科技股波動加劇，但信驊卻依舊強勢，甚至創下新高，足見市場信心回升，技術面看好後市發展！",
+          tag: "tw", url: "#"
+        },
+        {
+          title: "AI相關股市景氣持續，廠商未來布局創新方向。",
+          desc: "隨著輝達GTC大會之後，市場對AI股的懷暖持續加溫，包括相關廠商的未來布局也更加令人期待。",
+          tag: "tw", url: "#"
+        },
+        {
+          title: "張忠謀戰友退場！曾繁城掌創意董座23年功成身退",
+          desc: "創意電子董事長曾繁城宣布將於股東大會後退休，此人曾長期支持台積電的發展，其接班人選由台積電人員擔任，未來的發展值得關注。",
+          tag: "tw", url: "#"
+        },
+        {
+          title: "美銀論壇有面子有裡子 AI領軍台股大趨勢續航",
+          desc: "美銀論壇聚焦AI產業的影響，資深分析師指出，未來台股的成長勢頭將繼續受到AI技術的推動，吸引眾多投資者的目光。",
+          tag: "tw", url: "#"
+        },
+        {
+          title: "台積電期貨夜盤攻至1,880元 台指期夜盤站回34K",
+          desc: "夜盤持續受到良好消息影響，資金流入的情況下，台積電期貨價格上升，顯示市場對未來的期望仍然樂觀。",
+          tag: "tw", url: "#"
+        },
+        {
+          title: "大摩看旺蘋果鏈 卻因「這原因」降鴻海目標",
+          desc: "隨著蘋果新品的出貨量持續增長，市場對於鴻海的需求看好，但由於近期市場情況變化，其目標價略微調整，投資者需保持觀望。",
+          tag: "tw", url: "#"
+        }
+      ];
+
+      const usNews = [
+        {
+          title: "美股四大指數小幅走高！輝達盤中翻黑跌0.18%　台積電ADR上漲1.16%",
+          desc: "輝達在GTC會議中大秀其最新技術，儘管受到市場震盪影響，但仍然表現不差，且台積電ADR繼續上升，反映市場對科技股的信心。",
+          tag: "us", url: "#"
+        },
+        {
+          title: "油價小漲！美股開盤走高　台積電ADR漲近1%",
+          desc: "因戰爭影響持續，美股在缺乏清晰方向的情況下仍小幅上升，而油價略微回升在一定程度上緩和了市場的緊張情緒。",
+          tag: "us", url: "#"
+        },
+        {
+          title: "美股早盤小漲 台積電ADR揚升0.4%",
+          desc: "隨著市場情緒逐漸回暖，早盤美股小幅上漲，台積電ADR表現持穩，反映市場對於科技股仍有信心。",
+          tag: "us", url: "#"
+        },
+        {
+          title: "輝達GTC大會登場！市場預期AI晶片需求持續旺盛",
+          desc: "輝達執行長黃仁勳在GTC大會上展示新一代AI晶片架構，市場對輝達未來成長高度樂觀，帶動費城半導體指數走揚。",
+          tag: "us", url: "#"
+        },
+        {
+          title: "Fed官員：通膨走緩但不急於降息 美債殖利率小幅走升",
+          desc: "聯準會官員重申將謹慎評估降息時程，通膨數據雖有改善，但就業市場依然強勁，市場預期今年降息次數可能低於預期。",
+          tag: "us", url: "#"
+        },
+        {
+          title: "蘋果新品發表前夕 供應鏈股普遍走強",
+          desc: "蘋果即將舉辦春季發表會，市場對新款iPhone需求預期樂觀，帶動鴻海、和碩、台積電等供應鏈概念股連動走強。",
+          tag: "us", url: "#"
+        },
+        {
+          title: "特斯拉歐洲銷量回溫 電動車族群止跌反彈",
+          desc: "特斯拉宣布在歐洲市場針對部分車款調降售價，銷售量出現回溫跡象，帶動電動車相關類股整體回升。",
+          tag: "us", url: "#"
+        }
+      ];
+
+      // ── 渲染新聞 ──
+      function renderNews(data, containerId) {
+        const container = document.getElementById(containerId);
+        container.innerHTML = data.map(item => `
+          <div class="news-item" onclick="window.open('${item.url}','_blank')">
+            <div class="news-item-title">
+              <span>${item.title}</span>
+              <span class="news-tag ${item.tag}">${item.tag === 'tw' ? '台股' : '美股'}</span>
+            </div>
+            <div class="news-item-desc">${item.desc}</div>
+          </div>
+        `).join('');
+      }
+
+      // ── 今日日期 ──
+      document.addEventListener('DOMContentLoaded', () => {
+        const today = new Date();
+        const dateStr = today.toLocaleDateString('zh-TW', { year: 'numeric', month: 'numeric', day: 'numeric' });
+        document.getElementById('today-date').textContent = dateStr;
+
+        renderNews(twNews, 'tw-news-list');
+        renderNews(usNews, 'us-news-list');
+
+        // 隱藏 loading
+        const overlay = document.getElementById('loading-overlay');
+        if (overlay) {
+          overlay.classList.add('fade-out');
+          setTimeout(() => overlay.style.display = 'none', 500);
+        }
+      });
+
+      // ── Theme ──
+      const desktopThemeToggle = document.getElementById('desktop-theme-toggle');
+      const mobileThemeToggle  = document.getElementById('mobile-theme-toggle');
+      const currentTheme = localStorage.getItem('theme') || 'light';
+      if (currentTheme === 'dark') {
+        document.body.classList.add('dark-theme');
+        updateToggleIcons('dark');
+      } else {
+        updateToggleIcons('light');
+      }
+      function toggleTheme() {
+        document.body.classList.toggle('dark-theme');
+        const theme = document.body.classList.contains('dark-theme') ? 'dark' : 'light';
+        localStorage.setItem('theme', theme);
+        updateToggleIcons(theme);
+      }
+      function updateToggleIcons(mode) {
+        const emoji = mode === 'dark' ? '🌙' : '☀️';
+        if (desktopThemeToggle) desktopThemeToggle.textContent = emoji;
+        if (mobileThemeToggle)  mobileThemeToggle.textContent  = emoji;
+      }
+      if (desktopThemeToggle) desktopThemeToggle.addEventListener('click', toggleTheme);
+      if (mobileThemeToggle)  mobileThemeToggle.addEventListener('click', toggleTheme);
+    </script>
+  </body>
+</html>

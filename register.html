@@ -1,0 +1,513 @@
+<!doctype html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>立即註冊 - 飆股管家</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link rel="stylesheet" href="css/style.css" />
+    <style>
+      /* ── 步驟面板撐滿 ── */
+      .step-panel { width: 100%; }
+
+      /* ── 步驟指示器 ── */
+      .steps-indicator {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0;
+        margin: 0 0 2rem 0;
+      }
+      .step-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+      }
+      .step-circle {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 13px;
+        font-weight: 600;
+        border: 2px solid var(--border-color, #ccc);
+        color: var(--text-secondary, #888);
+        background: transparent;
+        transition: all 0.3s ease;
+      }
+      .step-item.active .step-circle {
+        background: var(--primary, #ff5b7a);
+        border-color: var(--primary, #ff5b7a);
+        color: #fff;
+        box-shadow: 0 0 14px rgba(255, 91, 122, 0.4);
+      }
+      .step-item.done .step-circle {
+        background: #22c55e;
+        border-color: #22c55e;
+        color: #fff;
+      }
+      .step-label {
+        font-size: 11px;
+        color: var(--text-secondary, #888);
+        white-space: nowrap;
+      }
+      .step-item.active .step-label {
+        color: var(--primary, #ff5b7a);
+        font-weight: 600;
+      }
+      .step-item.done .step-label { color: #22c55e; }
+      .step-line {
+        width: 48px;
+        height: 2px;
+        background: var(--border-color, #ccc);
+        margin: 0 4px;
+        margin-bottom: 22px;
+        flex-shrink: 0;
+        transition: background 0.3s ease;
+      }
+      .step-line.done { background: #22c55e; }
+
+      /* ── 步驟面板 ── */
+      .step-panel { display: none; animation: fadeIn 0.35s ease; }
+      .step-panel.active { display: block; }
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(8px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+
+      /* ── 條款區塊 ── */
+      .terms-box {
+        background: var(--bg-main, #f5f7fb);
+        border: 1.5px solid var(--border, #e0e0e0);
+        border-radius: 0.75rem;
+        padding: 1.25rem 1.25rem;
+        max-height: 320px;
+        overflow-y: auto;
+        font-size: 0.85rem;
+        line-height: 1.8;
+        color: var(--text-main, #333);
+        margin-bottom: 1.25rem;
+        scroll-behavior: smooth;
+      }
+      .terms-box::-webkit-scrollbar { width: 6px; }
+      .terms-box::-webkit-scrollbar-thumb {
+        background: var(--border, #d0d0d0);
+        border-radius: 4px;
+      }
+      .terms-box h3 {
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: var(--text-main, #222);
+        margin: 1rem 0 0.4rem;
+      }
+      .terms-box h3:first-child { margin-top: 0; }
+      .terms-box p { margin: 0 0 0.6rem; }
+      .terms-box ul {
+        padding-left: 1.25rem;
+        margin: 0 0 0.6rem;
+      }
+      .terms-box ul li { margin-bottom: 0.3rem; }
+      .terms-warning {
+        background: rgba(255, 91, 122, 0.07);
+        border-left: 3px solid var(--primary, #ff5b7a);
+        border-radius: 4px;
+        padding: 0.6rem 0.9rem;
+        font-weight: 600;
+        color: var(--primary, #ff5b7a);
+        margin-top: 0.75rem;
+      }
+      .scroll-hint {
+        text-align: center;
+        font-size: 0.78rem;
+        color: var(--text-muted, #aaa);
+        margin-bottom: 0.75rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+      }
+      .scroll-hint .material-icons { font-size: 14px; }
+
+      /* ── 同意勾選 ── */
+      .agree-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.6rem;
+        margin-bottom: 1.25rem;
+        cursor: pointer;
+      }
+      .agree-row input[type="checkbox"] {
+        width: 18px !important;
+        height: 18px;
+        min-width: 18px;
+        margin-top: 2px;
+        accent-color: var(--primary, #ff5b7a);
+        cursor: pointer;
+        padding: 0 !important;
+        box-sizing: border-box;
+      }
+      .agree-row label {
+        font-size: 0.88rem;
+        color: var(--text-main, #333);
+        cursor: pointer;
+        line-height: 1.5;
+      }
+      .agree-row label a {
+        color: var(--primary, #ff5b7a);
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      /* ── 密碼強度 ── */
+      .strength-bar-wrap {
+        display: flex;
+        gap: 6px;
+        margin: 6px 0 4px;
+      }
+      .strength-seg {
+        flex: 1;
+        height: 4px;
+        border-radius: 4px;
+        background: var(--border, #e0e0e0);
+        transition: background 0.3s;
+      }
+      .strength-label {
+        font-size: 11px;
+        color: var(--text-muted, #aaa);
+        margin-bottom: 0.75rem;
+      }
+
+      /* ── 密碼顯示/隱藏 ── */
+      .password-wrap { position: relative; }
+      .password-wrap input { padding-right: 2.8rem !important; }
+      .toggle-pw {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: var(--text-muted, #aaa);
+        padding: 0;
+        display: flex;
+        align-items: center;
+      }
+
+      /* ── 成功畫面 ── */
+      .success-icon {
+        width: 72px;
+        height: 72px;
+        border-radius: 50%;
+        background: rgba(34, 197, 94, 0.12);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.25rem;
+      }
+      .success-icon .material-icons { font-size: 40px; color: #22c55e; }
+      .success-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--text-main, #222);
+        text-align: center;
+        margin-bottom: 0.5rem;
+      }
+      .success-desc {
+        font-size: 0.85rem;
+        color: var(--text-muted, #888);
+        text-align: center;
+        line-height: 1.7;
+        margin-bottom: 1.75rem;
+      }
+
+      /* ── 輸入框大小 ── */
+      .login-actions .form-group input,
+      .password-wrap input {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 0.875rem 1rem;
+        font-size: 0.95rem;
+      }
+
+      /* ── 名稱列 (雙欄) ── */
+      .name-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.75rem;
+      }
+    </style>
+  </head>
+  <body class="login-page">
+    <div class="login-container">
+      <div class="login-card">
+
+        <!-- Logo -->
+        <div class="login-logo">
+          <div class="logo-icon"><span class="material-icons">trending_up</span></div>
+          <h1 class="logo-text">飆股<span>管家</span></h1>
+        </div>
+
+        <!-- 步驟指示器 -->
+        <div class="steps-indicator">
+          <div class="step-item active" id="si-1">
+            <div class="step-circle">1</div>
+            <div class="step-label">使用者條款</div>
+          </div>
+          <div class="step-line" id="sl-1"></div>
+          <div class="step-item" id="si-2">
+            <div class="step-circle">2</div>
+            <div class="step-label">填寫資料</div>
+          </div>
+          <div class="step-line" id="sl-2"></div>
+          <div class="step-item" id="si-3">
+            <div class="step-circle">3</div>
+            <div class="step-label">完成</div>
+          </div>
+        </div>
+
+        <!-- ── Step 1：使用者條款 ── -->
+        <div class="step-panel active" id="panel-1">
+          <div class="scroll-hint">
+            <span class="material-icons">swipe_down</span> 請向下捲動閱讀完整條款
+          </div>
+          <div class="terms-box" id="terms-box">
+            <h3>📋 飆股管家 使用者服務條款</h3>
+            <p>歡迎使用「飆股管家」股票資訊查詢平台（以下簡稱「本站」）。在您完成註冊並使用本站服務之前，請詳細閱讀以下條款。一旦您完成註冊，即表示您已閱讀、理解並同意遵守本條款。</p>
+
+            <h3>一、服務性質聲明</h3>
+            <p>本站提供之所有資訊，<strong>僅為盤後資訊整理與呈現</strong>，包含但不限於：</p>
+            <ul>
+              <li>每日收盤後之股票價格、漲跌幅、成交量等市場數據</li>
+              <li>技術指標（KDJ、MACD、RSI 等）之計算結果</li>
+              <li>AI 量化評分與策略選股排行</li>
+              <li>個股基本面資料（EPS、殖利率、產業別等）</li>
+            </ul>
+            <p>以上資訊均為歷史資料之呈現，<strong>不構成任何形式之投資建議、要約或勸誘。</strong></p>
+
+            <h3>二、免責聲明</h3>
+            <ul>
+              <li>本站<strong>不提供買賣建議</strong>，平台所呈現之任何評分、排行、指標，均不代表本站對特定股票之投資立場。</li>
+              <li>本站<strong>不保證資訊之即時性與準確性</strong>，資料可能存在延遲或誤差，請以官方交易所資料為準。</li>
+              <li>投資人應<strong>自行承擔投資決策之風險</strong>，本站對因參考本站資訊而造成之任何損失，不負任何法律責任。</li>
+              <li>股票市場具有高度風險，過去績效<strong>不代表未來報酬</strong>，請謹慎評估自身風險承受能力。</li>
+            </ul>
+
+            <h3>三、使用者義務</h3>
+            <ul>
+              <li>您須年滿 18 歲或具備完全行為能力方可使用本服務。</li>
+              <li>您同意不將本站資訊用於商業用途、轉售或二次散布。</li>
+              <li>您同意不以任何方式干擾、破壞本站之正常運作。</li>
+              <li>您須對帳號安全負責，不得將帳號轉讓予第三人使用。</li>
+            </ul>
+
+            <h3>四、帳號與隱私</h3>
+            <p>本站依《個人資料保護法》蒐集必要之個人資訊，僅用於提供服務及改善使用體驗，不會在未取得您同意之情形下提供予第三方。詳細隱私政策請參閱本站隱私權聲明。</p>
+
+            <h3>五、條款修訂</h3>
+            <p>本站保留隨時修訂本條款之權利，修訂後之條款將公告於本站，繼續使用本服務即視為同意修訂後之條款。</p>
+
+            <div class="terms-warning">
+              ⚠️ 重要聲明：本站所有內容僅供參考，不構成投資建議。投資決策請自行判斷，風險自負。
+            </div>
+          </div>
+
+          <!-- 同意勾選 -->
+          <div class="agree-row" onclick="document.getElementById('agree-check').click()">
+            <input type="checkbox" id="agree-check" onclick="event.stopPropagation(); toggleAgreeBtn()" />
+            <label for="agree-check" onclick="event.preventDefault()">
+              我已詳細閱讀並同意遵守以上<a href="#">使用者服務條款</a>及<a href="#">免責聲明</a>，並了解本站不提供投資建議。
+            </label>
+          </div>
+
+          <div class="login-actions" style="padding-top: 0;">
+            <button class="btn btn-primary login-submit-btn" id="btn-next" onclick="goStep2()" disabled
+              style="opacity: 0.45; cursor: not-allowed;">
+              <span class="material-icons" style="font-size:18px;vertical-align:middle;margin-right:6px;">arrow_forward</span>
+              我同意，下一步
+            </button>
+          </div>
+        </div>
+
+        <!-- ── Step 2：填寫資料 ── -->
+        <div class="step-panel" id="panel-2">
+          <div class="login-actions">
+            <!-- 姓名雙欄 -->
+            <div class="name-row">
+              <div class="form-group">
+                <label>姓氏</label>
+                <input type="text" id="last-name" placeholder="王" />
+              </div>
+              <div class="form-group">
+                <label>名字</label>
+                <input type="text" id="first-name" placeholder="小明" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>電子郵件</label>
+              <input type="email" id="reg-email" placeholder="example@email.com" />
+            </div>
+
+            <div class="form-group">
+              <label>密碼</label>
+              <div class="password-wrap">
+                <input type="password" id="reg-pw" placeholder="至少 8 個字元" oninput="checkStrength(this.value)" />
+                <button class="toggle-pw" type="button" onclick="togglePw('reg-pw', this)">
+                  <span class="material-icons" style="font-size:20px;">visibility_off</span>
+                </button>
+              </div>
+              <div class="strength-bar-wrap">
+                <div class="strength-seg" id="seg-1"></div>
+                <div class="strength-seg" id="seg-2"></div>
+                <div class="strength-seg" id="seg-3"></div>
+                <div class="strength-seg" id="seg-4"></div>
+              </div>
+              <div class="strength-label" id="strength-label">密碼強度：—</div>
+            </div>
+
+            <div class="form-group">
+              <label>確認密碼</label>
+              <div class="password-wrap">
+                <input type="password" id="reg-cpw" placeholder="請再輸入一次密碼" />
+                <button class="toggle-pw" type="button" onclick="togglePw('reg-cpw', this)">
+                  <span class="material-icons" style="font-size:20px;">visibility_off</span>
+                </button>
+              </div>
+            </div>
+
+            <button class="btn btn-primary login-submit-btn" onclick="goSuccess()">
+              <span class="material-icons" style="font-size:18px;vertical-align:middle;margin-right:6px;">person_add</span>
+              立即建立帳號
+            </button>
+          </div>
+        </div>
+
+        <!-- ── Step 3：完成 ── -->
+        <div class="step-panel" id="panel-success">
+          <div class="success-icon">
+            <span class="material-icons">check_circle</span>
+          </div>
+          <div class="success-title">🎉 帳號建立成功！</div>
+          <div class="success-desc">
+            歡迎加入飆股管家！<br>
+            您已成功完成註冊，<br>
+            現在可以開始使用所有功能。
+          </div>
+          <button class="btn btn-primary login-submit-btn" onclick="location.href='login.html'">
+            <span class="material-icons" style="font-size:18px;vertical-align:middle;margin-right:6px;">login</span>
+            前往登入
+          </button>
+        </div>
+
+        <!-- Footer -->
+        <div class="login-footer" style="margin-top: 1.5rem;">
+          <span>已有帳號？ <a href="login.html">立即登入</a></span>
+        </div>
+      </div>
+
+      <div class="login-copyright">
+        &copy; 2026 飆股管家 專業策略選股系統. All rights reserved.
+      </div>
+    </div>
+
+    <script>
+      /* ── 步驟切換 ── */
+      function showPanel(id) {
+        document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+      }
+
+      function setDone(n) {
+        const si = document.getElementById('si-' + n);
+        si.classList.remove('active');
+        si.classList.add('done');
+        si.querySelector('.step-circle').innerHTML =
+          '<span class="material-icons" style="font-size:16px;">check</span>';
+        const sl = document.getElementById('sl-' + n);
+        if (sl) sl.classList.add('done');
+      }
+
+      function setActive(n) {
+        document.getElementById('si-' + n).classList.add('active');
+      }
+
+      /* ── Step 1 → Step 2 ── */
+      function goStep2() {
+        if (!document.getElementById('agree-check').checked) return;
+        setDone(1);
+        setActive(2);
+        showPanel('panel-2');
+      }
+
+      /* ── Step 2 → 完成 ── */
+      function goSuccess() {
+        const lastName  = document.getElementById('last-name').value.trim();
+        const firstName = document.getElementById('first-name').value.trim();
+        const email     = document.getElementById('reg-email').value.trim();
+        const pw        = document.getElementById('reg-pw').value;
+        const cpw       = document.getElementById('reg-cpw').value;
+
+        if (!lastName || !firstName) { alert('請輸入姓名！'); return; }
+        if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { alert('請輸入有效的電子郵件！'); return; }
+        if (pw.length < 8) { alert('密碼至少需要 8 個字元！'); return; }
+        if (pw !== cpw) { alert('兩次輸入的密碼不一致！'); return; }
+
+        setDone(2);
+        setActive(3);
+        showPanel('panel-success');
+      }
+
+      /* ── 同意按鈕開關 ── */
+      function toggleAgreeBtn() {
+        const checked = document.getElementById('agree-check').checked;
+        const btn = document.getElementById('btn-next');
+        btn.disabled = !checked;
+        btn.style.opacity = checked ? '1' : '0.45';
+        btn.style.cursor  = checked ? 'pointer' : 'not-allowed';
+      }
+
+      /* ── 密碼強度 ── */
+      function checkStrength(val) {
+        let score = 0;
+        if (val.length >= 8)        score++;
+        if (/[A-Z]/.test(val))      score++;
+        if (/[0-9]/.test(val))      score++;
+        if (/[^A-Za-z0-9]/.test(val)) score++;
+        const colors = ['#ef4444', '#f97316', '#eab308', '#22c55e'];
+        const labels = ['太弱', '尚可', '強', '非常強'];
+        document.querySelectorAll('.strength-seg').forEach((s, i) => {
+          s.style.background = i < score ? colors[score - 1] : '';
+        });
+        document.getElementById('strength-label').textContent =
+          score === 0 ? '密碼強度：—' : '密碼強度：' + labels[score - 1];
+      }
+
+      /* ── 顯示/隱藏密碼 ── */
+      function togglePw(id, btn) {
+        const inp  = document.getElementById(id);
+        const icon = btn.querySelector('.material-icons');
+        inp.type = inp.type === 'password' ? 'text' : 'password';
+        icon.textContent = inp.type === 'password' ? 'visibility_off' : 'visibility';
+      }
+
+      /* ── 條款捲到底才亮起勾選 (可選) ── */
+      const termsBox = document.getElementById('terms-box');
+      const agreeCheck = document.getElementById('agree-check');
+      termsBox.addEventListener('scroll', () => {
+        if (termsBox.scrollTop + termsBox.clientHeight >= termsBox.scrollHeight - 10) {
+          agreeCheck.disabled = false;
+        }
+      });
+    </script>
+  </body>
+</html>

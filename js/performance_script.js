@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
           </td>
           <td class="price-text lg-text text-center">${stock.buyPrice}</td>
           <td class="price-text lg-text text-center ${changeClass}">${stock.closingPrice}</td>
-          <td class="${changeClass} lg-text text-center">${changePrefix}${Math.abs(stock.change).toFixed(2)}<br><small>${Math.abs(stock.changePercent).toFixed(2)}%</small></td>
+          <td class="${changeClass} text-center">${changePrefix}${Math.abs(stock.change).toFixed(2)}<br><small>${Math.abs(stock.changePercent).toFixed(2)}%</small></td>
           <td class="text-center">
             ${stock.breakthrough === "O" ? '<span class="status-circle-red"></span>' : '<span class="muted-icon">－</span>'}
           </td>
@@ -86,7 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <td class="text-center ${parseFloat(stock.bias) > 10 ? 'up' : (parseFloat(stock.bias) < -5 ? 'down' : '')}">${stock.bias}</td>
           <td class="text-center"><span class="price-text">${stock.days}</span><small class="unit-label">天</small></td>
           <td class="text-center ${roiClass}">
-            <span class="roi-val font-bold" style="font-size: 1.2rem;">${stock.roi}</span>
+            <span class="roi-val font-bold" style="font-size: 1.125rem;">${stock.roi}</span>
           </td>
         `;
         tbody.appendChild(row);

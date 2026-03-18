@@ -116,22 +116,23 @@ document.addEventListener("DOMContentLoaded", () => {
   const currentTheme = localStorage.getItem('theme') || 'light';
   if (currentTheme === 'dark') {
     document.body.classList.add('dark-theme');
-    updateToggleIcons('dark_mode');
+    updateToggleIcons('dark');
   } else {
     document.body.classList.remove('dark-theme');
-    updateToggleIcons('light_mode');
+    updateToggleIcons('light');
   }
 
   function toggleTheme() {
     document.body.classList.toggle('dark-theme');
     const theme = document.body.classList.contains('dark-theme') ? 'dark' : 'light';
     localStorage.setItem('theme', theme);
-    updateToggleIcons(theme === 'light' ? 'light_mode' : 'dark_mode');
+    updateToggleIcons(theme === 'light' ? 'light' : 'dark');
   }
 
-  function updateToggleIcons(iconName) {
-    if (desktopThemeToggle) desktopThemeToggle.innerHTML = `<span class="material-icons">${iconName}</span>`;
-    if (mobileThemeToggle) mobileThemeToggle.innerHTML = `<span class="material-icons">${iconName}</span>`;
+  function updateToggleIcons(mode) {
+    const emoji = mode === 'dark' ? '🌙' : '☀️';
+    if (desktopThemeToggle) desktopThemeToggle.textContent = emoji;
+    if (mobileThemeToggle) mobileThemeToggle.textContent = emoji;
   }
 
   if (desktopThemeToggle) desktopThemeToggle.addEventListener('click', toggleTheme);
@@ -292,7 +293,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     </a>
                 </td>
                 <td class="price-text lg-text text-center ${changeClass}">${stock.price}</td>
-                <td class="${changeClass} lg-text text-center">${changePrefix}${Math.abs(stock.change).toFixed(2)}<br><small>${stock.percent}</small></td>
+                <td class="${changeClass} text-center">${changePrefix}${Math.abs(stock.change).toFixed(2)}<br><small>${stock.percent}</small></td>
                 <td class="text-center">${break5Html}</td>
                 <td class="text-center">${volumeHtml}</td>
                 <td class="text-center">${kdjHtml}</td>

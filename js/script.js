@@ -721,22 +721,23 @@ document.addEventListener("DOMContentLoaded", () => {
   const currentTheme = localStorage.getItem('theme') || 'light';
   if (currentTheme === 'dark') {
     document.body.classList.add('dark-theme');
-    updateToggleIcons('dark_mode');
+    updateToggleIcons('dark');
   } else {
     document.body.classList.remove('dark-theme');
-    updateToggleIcons('light_mode');
+    updateToggleIcons('light');
   }
 
   function toggleTheme() {
     document.body.classList.toggle('dark-theme');
     const theme = document.body.classList.contains('dark-theme') ? 'dark' : 'light';
     localStorage.setItem('theme', theme);
-    updateToggleIcons(theme === 'light' ? 'light_mode' : 'dark_mode');
+    updateToggleIcons(theme === 'light' ? 'light' : 'dark');
   }
 
-  function updateToggleIcons(iconName) {
-    if (desktopThemeToggle) desktopThemeToggle.innerHTML = `<span class="material-icons">${iconName}</span>`;
-    if (mobileThemeToggle) mobileThemeToggle.innerHTML = `<span class="material-icons">${iconName}</span>`;
+  function updateToggleIcons(mode) {
+    const emoji = mode === 'dark' ? '🌙' : '☀️';
+    if (desktopThemeToggle) desktopThemeToggle.textContent = emoji;
+    if (mobileThemeToggle) mobileThemeToggle.textContent = emoji;
   }
 
   if (desktopThemeToggle) desktopThemeToggle.addEventListener('click', toggleTheme);
@@ -912,7 +913,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 </td>
                 <td class="text-center"><span class="confidence-score ${stock.score >= 75 ? 'up' : ''}">${stock.score}</span></td>
                 <td class="price-text lg-text text-center ${changeClass}">${stock.price}</td>
-                <td class="${changeClass} lg-text text-center">${changePrefix}${Math.abs(stock.change).toFixed(2)}<br><small>${stock.percent}</small></td>
+                <td class="${changeClass} text-center">${changePrefix}${Math.abs(stock.change).toFixed(2)}<br><small>${stock.percent}</small></td>
                 <td class="text-center">${break5Html}</td>
                 <td class="text-center">${volumeHtml}</td>
                 <td class="text-center">${kdjHtml}</td>
@@ -925,9 +926,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 </td>
                 <td><small>${stock.industry}</small></td>
                 <td class="text-center"><span class="${parseFloat(stock.bias) >= 10 ? 'down' : ''}">${stock.bias}</span></td>
-                <td class="${parseFloat(stock.gain10) >= 0 ? "up" : "down"} text-center">${stock.gain10}<br><small>10天</small></td>
+                <td class="${parseFloat(stock.gain10) >= 0 ? "up" : "down"} text-center">${stock.gain10}</td>
                 <td class="text-center">
-                    <button class="add-btn">+</button>
+                    <button class="add-btn" data-id="${stock.id}" data-name="${stock.name}">+</button>
                 </td>
             `;
       tbody.appendChild(tr);
@@ -947,4 +948,42 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
+
+  // Favorite Modal Logic
+  const favoriteModal = document.getElementById('favorite-modal');
+  const modalMessage = document.getElementById('modal-message');
+  const modalCancel = document.getElementById('modal-cancel');
+  const modalConfirm = document.getElementById('modal-confirm');
+
+  // We use event delegation for the add-btn clicks since rows are re-rendered
+  document.addEventListener('click', (e) => {
+    if (e.target && e.target.classList.contains('add-btn')) {
+      const stockId = e.target.getAttribute('data-id');
+      const stockName = e.target.getAttribute('data-name');
+      
+      modalMessage.innerHTML = `確定將 <a href="https://www.wantgoo.com/stock/${stockId}/technical-chart" target="_blank" class="modal-stock-link">${stockName}(${stockId})</a> 加入到我的自選個股？`;
+      favoriteModal.classList.add('active');
+    }
+  });
+
+  if (modalCancel) {
+    modalCancel.addEventListener('click', () => {
+      favoriteModal.classList.remove('active');
+    });
+  }
+
+  if (modalConfirm) {
+    modalConfirm.addEventListener('click', () => {
+      // In a real app, you'd send an API call here
+      favoriteModal.classList.remove('active');
+      alert('已成功加入自選個股！');
+    });
+  }
+
+  // Click outside to close
+  favoriteModal.addEventListener('click', (e) => {
+    if (e.target === favoriteModal) {
+      favoriteModal.classList.remove('active');
+    }
+  });
 });

@@ -12,7 +12,7 @@
     />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="css/style.css" />
   </head>
   <body class="">
     <!-- Full Screen Loader -->
@@ -31,13 +31,10 @@
       <main class="main-content">
         <!-- Dashboard Top Bar (Desktop) -->
         <div class="top-bar">
-          <div class="search-container">
-            <span class="material-icons search-icon">search</span>
-            <input type="text" placeholder="搜尋股名或代號...">
-          </div>
+
           <div class="top-actions">
-            <button class="icon-btn" id="desktop-theme-toggle"><span class="material-icons">light_mode</span></button>
-            <button class="icon-btn"><span class="material-icons">notifications</span></button>
+            <button class="icon-btn" id="desktop-theme-toggle">☀️</button>
+            <button class="icon-btn">🔔</button>
             <div class="user-profile-small">
             <a href="login.html" class="avatar-small"><span class="material-icons">logout</span></a>
             </div>
@@ -49,18 +46,24 @@
             <h2 class="logo-text">飆股<span>管家</span></h2>
           </div>
           <div class="top-actions">
-            <button class="icon-btn" id="mobile-theme-toggle"><span class="material-icons">dark_mode</span></button>
-            <button class="icon-btn"><span class="material-icons">notifications</span></button>
+            <button class="icon-btn" id="mobile-theme-toggle">🌙</button>
+            <button class="icon-btn">🔔</button>
           </div>
         </header>
 
         <section class="content-header">
           <div class="title-area">
             <h2><span class="title-emoji">⭐</span> 我的自選個股</h2>
+            <div class="favorites-limit-info">
+              <span class="material-icons">info</span>
+              我的自選股上限為 5 筆
+            </div>
           </div>
           <div class="action-area">
-            <button class="btn btn-secondary">匯出報表</button>
-            <button class="btn btn-primary" id="refresh-btn">重新整理</button>
+
+            <button class="btn btn-secondary btn-sm" id="refresh-btn">
+              <span class="material-icons">refresh</span> 重新整理
+            </button>
           </div>
         </section>
 
@@ -100,6 +103,6 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="components/loader.js"></script>
-    <script src="favorites_script.js"></script>
+    <script src="js/favorites_script.js"></script>
   </body>
 </html>
