@@ -238,16 +238,14 @@ body.dark-theme .icon-btn:hover {
 html, body {
     margin: 0;
     padding: 0;
-    height: 100%;
-    overflow: hidden; /* Prevent default scrolling on body to fix mobile bar jumping */
+    min-height: 100%;
 }
 
 .app-container {
     display: flex;
-    height: 100dvh; /* Use dynamic viewport height for mobile stability */
-    width: 100vw;
+    min-height: 100vh;
+    width: 100%;
     background-color: var(--bg-main);
-    overflow: hidden;
 }
 
 body {
@@ -395,8 +393,12 @@ body.dark-theme .sidebar-collapsed .nav-item::after {
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    margin-bottom: 2.5rem;
-    padding-left: 0.5rem;
+    padding: 1rem 0 2rem;
+    margin-bottom: 3.5rem;
+    position: relative;
+    flex-shrink: 0;
+    text-decoration: none !important;
+    color: inherit;
 }
 
 .logo-icon {
@@ -540,7 +542,6 @@ body:not(.dark-theme) .logo-text {
     flex: 1;
     min-width: 0;
     transition: all 0.3s ease;
-    overflow-x: hidden;
     background-color: var(--bg-main);
 }
 
@@ -1097,9 +1098,22 @@ body.dark-theme tr.analysis-row td {
     max-width: 100%;
 }
 
-@media (min-width: 600px) {
+@media (min-width: 767px) {
     .analysis-text {
         max-width: 800px;
+        font-size: 0.938rem;
+    }
+}
+
+@media (max-width: 767px) {
+    .analysis-text {
+        font-size: 1rem !important; /* Set to 1rem as requested */
+        line-height: 1.6;
+    }
+    
+    .analysis-text strong {
+        font-size: 1rem !important;
+        margin-bottom: 6px;
     }
 }
 
@@ -1482,7 +1496,7 @@ tbody td.lg-text {
         width: 70px;
         padding: 2rem 0.5rem;
     }
-    .logo-text, .user-info, .nav-item span:not(.icon) {
+    .sidebar .logo-text, .sidebar .user-info, .sidebar .nav-item span:not(.icon) {
         display: none;
     }
     .nav-item {
@@ -1543,6 +1557,7 @@ tbody td.lg-text {
         gap: 0.5rem;
         height: 100%;
         margin-bottom: 0 !important;
+        padding: 1rem 0;
     }
 
     .mobile-header .logo-icon {
@@ -1903,8 +1918,8 @@ body.dark-theme .last-update {
 /* Performance Page Specific Styles */
 .summary-performance-table {
     width: 100%;
+    min-width: 450px; /* Ensure content doesn't squish too much */
     border-collapse: collapse;
-    /* margin-bottom: 2rem; */
     background: var(--bg-card);
     border-radius: 0.75rem;
     overflow: hidden;
@@ -2316,8 +2331,8 @@ body.dark-theme .summary-performance-table th {
 /* --- Mobile Bottom Tab Bar (Apple HIG Style) --- */
 @media (max-width: 767px) {
     .app-container {
-        height: 100dvh;
         flex-direction: column;
+        min-height: 100vh;
     }
     
     .mobile-bottom-nav {
@@ -2325,7 +2340,7 @@ body.dark-theme .summary-performance-table th {
         justify-content: space-around;
         align-items: center;
         position: fixed;
-        bottom: 0 !important; /* Force to bottom */
+        bottom: 0;
         left: 0;
         width: 100%;
         height: calc(65px + env(safe-area-inset-bottom));
@@ -2334,7 +2349,7 @@ body.dark-theme .summary-performance-table th {
         backdrop-filter: blur(25px) saturate(180%);
         -webkit-backdrop-filter: blur(25px) saturate(180%);
         border-top: 1px solid rgba(0, 0, 0, 0.08);
-        z-index: 9999; /* Max z-index */
+        z-index: 9999;
     }
 
     body.dark-theme .mobile-bottom-nav {
@@ -2347,10 +2362,18 @@ body.dark-theme .summary-performance-table th {
         margin-left: 0 !important;
         padding: 1rem 1.25rem;
         padding-top: calc(75px + env(safe-area-inset-top)) !important;
-        padding-bottom: calc(90px + env(safe-area-inset-bottom)) !important;
+        padding-bottom: calc(100px + env(safe-area-inset-bottom)) !important;
         width: 100% !important;
-        overflow-y: auto !important;
-        -webkit-overflow-scrolling: touch;
+    }
+
+    .summary-table-container {
+        margin-bottom: 2.5rem !important;
+    }
+
+    .summary-performance-table th, 
+    .summary-performance-table td {
+        padding: 0.75rem 0.75rem !important;
+        font-size: 0.95rem !important;
     }
 
     .mobile-nav-item {
