@@ -2238,6 +2238,10 @@ body.dark-theme .summary-performance-table th {
   flex-wrap: wrap;
 }
 .news-item-title:hover { text-decoration: underline; }
+
+body.dark-theme .news-item-title {
+  color: #ffffff;
+}
 .news-tag {
   display: inline-block;
   font-size: 0.68rem;

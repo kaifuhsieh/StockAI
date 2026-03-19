@@ -493,7 +493,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             <strong>AI分析指數：</strong>
                             <div class="star-rating">${starsHtml}</div>
                         </div>
-                        <span>${stock.reason}</span>
+                        <span class="analysis-desc-text">${stock.reason}</span>
                     </div>
                 </td>
             `;
