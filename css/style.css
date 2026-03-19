@@ -1159,7 +1159,7 @@ body.dark-theme tr.analysis-row td {
         padding-top: 0.5rem;
     }
     
-    .analysis-text span {
+    .analysis-desc-text {
         font-size: 0.938rem !important;
     }
     
